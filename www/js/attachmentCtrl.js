@@ -4,7 +4,7 @@
 
     angular
         .module('starter')
-        .controller('attachmentCtrl', function ($cordovaCamera, dataService, $http, $scope) {
+        .controller('attachmentCtrl', function ($cordovaCamera, dataService, $http) {
             var vm = this;
             vm.formNumber = 1;
             vm.mobileImages = [];
@@ -25,7 +25,6 @@
                 }
 
             vm.init = function(ids) {
-                console.log('idecka: ',ids)
 
                 $http({
                     method: 'POST',
@@ -228,7 +227,6 @@
                     // An error occured. Show a message to the user
                 });
             }
-
 
             vm.submit = function () {
                 var dataResult = {

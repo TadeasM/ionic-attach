@@ -39,6 +39,8 @@
   <script src="js/directive.js"></script>
   <script src="js/httpservice.js"></script>
   
+  <script src="lib/webcam/webcam.min.js"></script>
+  
 <!--<script src="https://jsconsole.com/js/remote.js?c926fcc4-2345-4d0d-bdc0-e9bf5245d066"></script>-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -98,7 +100,7 @@
                 <input id="file-input{{form.id}}" type="file" file-model="form.myFile[form.id]"></label>
               </span>
               <span class="icon-set right">
-        <label for="camera-input{{form.id}}" style="font-size: 25px;"><i class="icon ion-android-camera padding-right"></i>
+        <label for="camera-input{{form.id}}" style="font-size: 25px;" ng-click="modal.show()"><i class="icon ion-android-camera padding-right"></i>
                 
                 <input type="file" id="camera-input{{form.id}}" accept="image/*;capture=camera" file-model="form.myFile[form.id]">
               </label></span>
@@ -134,10 +136,6 @@
           </button>
           </div>
         </form>
-      </div>
-      <br>
-    </ion-content>
-  </ion-pane>
 </body>
 
 </html>
