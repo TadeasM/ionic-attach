@@ -21,10 +21,7 @@
                     return data
                 }).error(function(e){
                     console.log("error", e);
-                    vm.attachmentSetup = {
-                        "maxAttachmentsSizeInMB": 50,
-                        "maxAttachmentsCount": 2
-                        }
+                    
                 });
             }
 
@@ -41,6 +38,10 @@
                     return data
                 }).error(function(e){
                     console.log("error", e);
+                    vm.attachmentSetup = {
+                        "maxAttachmentsSizeInMB": 50,
+                        "maxAttachmentsCount": 2
+                        }
                 });
             }
             // BRANDS

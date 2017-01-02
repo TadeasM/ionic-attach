@@ -7,6 +7,17 @@
         .controller('attachmentCtrl', function ($cordovaCamera, dataService, $http, $scope) {
             var vm = this;
             vm.formNumber = 1;
+            vm.mobileImages = [];
+            vm.maxAttachments = 6;
+
+            vm.pome = dataService.getInitSetup();
+            myDataPromise.then(function(result) {  
+
+            // this is only run after getData() resolves
+            $scope.data = result;
+            console.log("data.name"+$scope.data.name);
+            });
+
 
             var isWebView = ionic.Platform.isWebView();
             var isIPad = ionic.Platform.isIPad();
@@ -173,23 +184,26 @@
                 } 
                                 
                 var options = {
-                    fileName: 'image.png',
+                    fileName: 'mobile_image' + objId,
                     quality: 50,
                     destinationType: Camera.DestinationType.DATA_URL,
                     sourceType: Camera.PictureSourceType.CAMERA,
                     allowEdit: true,
                     encodingType: Camera.EncodingType.JPEG,
                     targetWidth: 100,
-                    targetHeight: 100,
+                    targetHeight: 200,
                     popoverOptions: CameraPopoverOptions,
                     saveToPhotoAlbum: false,
                     correctOrientation: true
                 };
 
                 $cordovaCamera.getPicture(options).then(function (imageData) {
-                    // console.log('image: ', imageURI);
+                    console.log('image: ', options);
+                    console.log('fileURI: ',options.destinationType);
+                    vm.mobileImages.push(imageData);
                     
                     vm.fileName[objId] = options.fileName;
+                    console.log('image image', vm.fileName[objId]);
                     
                     
                 }, function (err) {
@@ -230,6 +244,7 @@
                     pzNumber: vm.pzNumber,
                     npzNumber: vm.npzNumber,
                     ziadanka: vm.ziadanka,
+                    mobileImages: vm.mobileImages
                     
                 };
                 vm.dataResult = dataResult;

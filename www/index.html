@@ -40,10 +40,9 @@
   <script src="js/httpservice.js"></script>
   
 <!--<script src="https://jsconsole.com/js/remote.js?c926fcc4-2345-4d0d-bdc0-e9bf5245d066"></script>-->
-<script
-  src="https://code.jquery.com/jquery-3.1.1.min.js"
-  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-  crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 
 
 
@@ -79,7 +78,7 @@
             <p class="padding-side section-title add-form">
               Príloha<a href="#" ng-click="vm.removeForm([form.id])"><span class="ion-close-round"></span></a></p>
 
-            <div class="form-group col-sm-12" ng-if="!vm.isDesktop" ng-class="{'has-error' : !fileName[form.id]}">
+            <div class="form-group col-sm-12" ng-if="!vm.isDesktop" ng-class="{'has-error' : fileName[form.id]}">
               <label class="control-label width-100">Názov súboru</label>
               <input type="text" class="form-control file-input" ng-model="fileName[form.id]" ng-disabled="true">
               <span class="icon-set right">
@@ -117,9 +116,7 @@
             </div>
             <div class="form-group col-sm-4" ng-class="{'has-error' : !form.type[form.id]}">
               <label class="control-label">Typ</label>
-              <select class="form-control" name="type" ng-model="form.type[form.id]" ng-options="item.id as item.name for item in vm.type[form.id]" <div="">
-
-        ng-required="true">
+              <select class="form-control" name="type" ng-model="form.type[form.id]" ng-options="item.id as item.name for item in vm.type[form.id]" ng-required="true">
           </select>
             </div>
             <div class="form-group col-sm-12">
@@ -129,7 +126,7 @@
 
           </div>
           <div class="form-group">
-            <button class="btn btn-primary btn-amc left margin-left-15" type="button" ng-click="vm.addNewForm()" ng-disabled="vm.attachmentsForm.length > 5">Pridať prílohu
+            <button class="btn btn-primary btn-amc left margin-left-15" type="button" ng-click="vm.addNewForm()" ng-disabled="vm.attachmentsForm.length > vm.maxAttachments-1">Pridať prílohu
             <span class="ion-plus-round" aria-hidden="true"></span>
           </button>
             <button class="btn btn-primary btn-amc right margin-right-15" type="submit" ng-disabled="attachForm.$invalid"><span class="ion-checkmark-round"></span> Odoslať do ASP
