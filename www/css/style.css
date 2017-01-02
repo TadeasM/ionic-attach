@@ -1,0 +1,202 @@
+/* Empty. Add your own CSS if you like */
+ion-content {
+    background: #F2F2F2;
+}
+.form-group label {
+    display: inline-block;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 12px;
+    color: #727272;
+    font-weight: 500;
+    margin-bottom: 10px;
+    margin-left: 0;
+    line-height: 14px;
+    /* overflow: hidden; */
+    /* white-space: nowrap; */
+}
+.form-group .form-control {
+    width: 100%;
+    height: 36px;
+    margin: 0;
+    padding: 7px 9px;
+    position: relative;
+    display: inline-block;
+    background-color: #fff;
+    outline: none;
+    border: 1px solid #fff;
+    border-radius: 2px;
+    background-clip: padding-box;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+    color: #000;
+    font-size: 14px;
+    line-height: 24px;
+    transition: border .3s ease 0s,color .3s ease 0s,box-shadow .3s ease 0s;
+}
+.form-group .form-control:focus {
+    border: 1px solid #b2b2b2;
+    box-shadow: 0 0 10px rgba(0,0,0,.15);
+}
+
+.has-error .form-control {
+    border-color: #a94442;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+.has-error label {
+    color: #a94442;
+}
+
+.margin-left-15 {
+    margin-left: 15px
+}
+.margin-right-15 {
+    margin-right: 15px
+}
+.padding-left-15 {
+    padding-left: 15px
+}
+.padding-right-15 {
+    padding-right: 15px
+}
+.icon-set {
+    font-size: 25px;    
+}
+.section-title {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+    -ms-flex-align: center;
+    align-items: center;
+    margin: 20px 0;
+}
+.section-title:after {
+    content: '';
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+    height: 2px;
+    margin-left: 20px;
+    background-color: #d9d9d9;
+}
+.section-title.add-form:after {
+    content: '';
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+    height: 2px;
+    margin-left: 20px;
+    margin-right: 20px;
+    background-color: #d9d9d9;
+}
+.add-form a {
+    position: absolute;
+    right: 25px;
+    text-decoration: none;
+    color: #727272;
+}
+ :after, :before {
+    box-sizing: border-box;
+}
+.right {
+    float: right;
+}
+.left {
+    float: left;
+}
+.padding-side {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.form-group.has-error:after {
+    content: '';
+    position: absolute;
+    bottom: 22px;
+    left: 15px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 14px 14px 0 0;
+    border-color: #c0262c transparent transparent;
+    z-index: 5;
+}
+.form-group.desktop-file.has-error:after {
+    content: '';
+    position: absolute;
+    bottom: 25px;
+    left: 15px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 14px 14px 0 0;
+    border-color: #c0262c transparent transparent;
+    z-index: 5;
+}
+@media screen and (max-width: 768px) {
+    .form-group.desktop-file.has-error:after {
+    bottom: 22px;
+    }
+}
+
+.btn-amc {
+    background: #004D91;
+    border-color: #004D91;
+    border-radius: 2px;
+    font-size: 12px;
+}
+
+.width-100 {
+    width: 100%;
+}
+
+.file-input {
+    width: 90% !important;
+}
+@media screen and (max-width: 900px) {
+    .file-input {
+    width: 85% !important;
+    }
+}
+@media screen and (max-width: 620px) {
+    .file-input {
+    width: 65% !important;
+    }
+}
+
+.main-content {
+    margin-bottom: 60px;
+}
+.fade {
+    opacity: 1;
+    -webkit-transition: opacity .15s linear;
+    -o-transition: opacity .15s linear;
+    transition: opacity .15s linear;
+}
+.fade.ng-enter {
+  transition:0.5s linear all;
+  opacity:0;
+}
+
+/* The finishing CSS styles for the enter animation */
+.fade.ng-enter.ng-enter-active {
+  opacity:1;
+}
+.fade.ng-leave {
+  transition:0.5s linear all;
+  opacity:1;
+}
+.fade.ng-leave.ng-leave-active {
+  opacity:0;
+}
+input[type=file] {
+    height: 1px;
+    width: 1px;
+    opacity: 0;
+    display:none;
+}
+.label-input {
+    display: inline !important;
+}
+
+.has-error label {
+     color: #333333; 
+}
+
