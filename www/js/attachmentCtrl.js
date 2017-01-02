@@ -10,14 +10,6 @@
             vm.mobileImages = [];
             vm.maxAttachments = 6;
 
-            vm.pome = dataService.getInitSetup();
-            myDataPromise.then(function(result) {  
-
-            // this is only run after getData() resolves
-            $scope.data = result;
-            console.log("data.name"+$scope.data.name);
-            });
-
 
             var isWebView = ionic.Platform.isWebView();
             var isIPad = ionic.Platform.isIPad();
