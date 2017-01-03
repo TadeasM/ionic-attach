@@ -4,12 +4,12 @@
 
     angular
         .module('starter')
-        .controller('attachmentCtrl', function ($cordovaCamera, dataService, $http) {
+        .controller('attachmentCtrl', function (dataService, $http, $timeout, $scope) {
             var vm = this;
             vm.formNumber = 1;
             vm.mobileImages = [];
             vm.maxAttachments = 6;
-
+            vm.maxSize = 60;
 
             var isWebView = ionic.Platform.isWebView();
             var isIPad = ionic.Platform.isIPad();
@@ -168,77 +168,47 @@
                 }
             };
 
-            vm.takePicture = function (objId) {
-                if (isWebView == false && isIPad == false && isIOS == false && isAndroid == false &&  isWindowsPhone == false ) {
-                    alert('only on mobile devices');
-                    return
-                } 
-                                
-                var options = {
-                    fileName: 'mobile_image' + objId,
-                    quality: 50,
-                    destinationType: Camera.DestinationType.DATA_URL,
-                    sourceType: Camera.PictureSourceType.CAMERA,
-                    allowEdit: true,
-                    encodingType: Camera.EncodingType.JPEG,
-                    targetWidth: 100,
-                    targetHeight: 200,
-                    popoverOptions: CameraPopoverOptions,
-                    saveToPhotoAlbum: false,
-                    correctOrientation: true
-                };
+            $scope.file_changed = function(element) {
+                vm.mobileImages.push(element);
+                console.log(vm.mobileImages);
 
-                $cordovaCamera.getPicture(options).then(function (imageData) {
-                    console.log('image: ', options);
-                    console.log('fileURI: ',options.destinationType);
-                    vm.mobileImages.push(imageData);
-                    
-                    vm.fileName[objId] = options.fileName;
-                    console.log('image image', vm.fileName[objId]);
-                    
-                    
-                }, function (err) {
-                    // error
-                });
-            }
-            vm.choosePhoto = function () {
-               if (isWebView == false && isIPad == false && isIOS == false && isAndroid == false &&  isWindowsPhone == false ) {
-                    alert('only on mobile devices');
-                    return
-                } 
-                
-                var options = {
-                    fileName: 'image.png',
-                    quality: 75,
-                    destinationType: Camera.DestinationType.DATA_URL,
-                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-                    allowEdit: true,
-                    encodingType: Camera.EncodingType.JPEG,
-                    targetWidth: 300,
-                    targetHeight: 300,
-                    popoverOptions: CameraPopoverOptions,
-                    saveToPhotoAlbum: false
+            $scope.$apply(function(scope) {
+                var photofile = element.files[0];
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    // handle onload
+                    console.log('image', e);
                 };
-                
-                $cordovaCamera.getPicture(options).then(function (imageURI) {
-                    // console.log('image: ', imageURI);
-                    
-                }, function (err) {
-                    // An error occured. Show a message to the user
-                });
-            }
+                reader.readAsDataURL(photofile);
+            });
+        };
 
             vm.submit = function () {
-                var dataResult = {
+                vm.fileSize = 0;
+                vm.mb = 1000000;
+                vm.dataResult = {
                     forms: vm.attachmentsForm,
                     pzNumber: vm.pzNumber,
                     npzNumber: vm.npzNumber,
                     ziadanka: vm.ziadanka,
                     mobileImages: vm.mobileImages
-                    
                 };
-                vm.dataResult = dataResult;
-                dataService.postData(dataResult);
+                console.log(vm.dataResult);
+                for (var i = 0; i < vm.attachmentsForm.length; i++) {
+                    var element = vm.attachmentsForm[i].myFile;
+                    vm.fileSize += element[i+1].size;
+                    
+                    console.log('element: ', element);
+                    console.log('file: ', vm.fileSize);
+                    
+                }
+                console.log(vm.fileSize / vm.mb);
+                vm.fileSize = vm.fileSize / vm.mb;
+                if (vm.fileSize > vm.maxSize) {
+                    alert('presahuje 60mb');
+                } else {
+                dataService.postData(vm.dataResult);
+                }
             }
         })
 })();
