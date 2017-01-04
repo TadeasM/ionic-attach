@@ -90,10 +90,10 @@
             </div>-->
 
             <div class="form-group col-sm-12" ng-if="!vm.isDesktop" ng-class="{'is-empty' : attachForm.cameraInput}">
-              <label class="control-label width-100">Názov súboru Mobil</label>
+              <label class="control-label width-100">Názov súboru</label>
               
-                <input id="cameraInput" class="visible-input" ng-model="cameraInput"
-       onchange="angular.element(this).scope().file_changed(this)" type="file" name="cameraInput" accept="image/*;capture=camera" >
+                <input id="cameraInput" class="visible-input" ng-model="form.cameraInput[form.id]"
+                onchange="angular.element(this).scope().file_changed(this)" type="file" name="cameraInput" accept="image/*;capture=camera" >
                 
             </div>
 
@@ -101,18 +101,21 @@
 
 
             <div class="form-group col-sm-12 desktop-file" ng-if="vm.isDesktop" ng-class="{'has-error' : !form.myFile[form.id]}">
-              <label class="control-label width-100">Názov súboru Desktop</label>
+              <label class="control-label width-100">Názov súboru</label>
               <input type="text" name="fileNameInput" class="form-control file-input" ng-model="form.myFile[form.id].name" ng-disabled="true" ng-required="true">
               <span class="icon-set right">
         <label for="file-input{{form.id}}" style="font-size: 25px;" class="black"><i class="icon ion-ios-upload-outline padding-side"></i>
                 <input id="file-input{{form.id}}" type="file" class="desktop-input" file-model="form.myFile[form.id]" accept="image/*;capture=camera"></label>
               </span>
               <span class="icon-set right">
-        <label for="camera-input{{form.id}}" style="font-size: 25px;" class="black" ng-click="modal.show()"><i class="icon ion-android-camera padding-right"></i>
-                
-                <input type="file" id="camera-input{{form.id}}" class="desktop-input" ng-change="vm.fileSize(this)" file-model="form.myFile[form.id]" ng-model="desktopFile[form.id]">
+              <label style="font-size: 25px;" class="black" ng-click="vm.showCam()"><i class="icon ion-android-camera padding-right"></i>
               </label></span>
-              {{form.myFile[form.id].size}}
+              <!--{{form.myFile[form.id].size}}-->
+            </div>
+              <div id="camera-div" class="col-sm-12" ng-show="vm.cameraShow">
+              <div id="my_camera" style="width:320px; height:240px;"></div>
+              <div id="my_result"></div>
+              <button type="button" ng-click"vm.snapshot">Take Snapshot</button>
             </div>
 
             <div class="form-group col-sm-4" ng-class="{'has-error' : !form.brand[form.id]}">
@@ -145,6 +148,10 @@
           </button>
           </div>
         </form>
+        
+      </div>
+    </ion-content>
+  </ion-pane>
 </body>
 
 </html>

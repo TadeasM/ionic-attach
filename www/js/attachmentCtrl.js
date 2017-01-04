@@ -10,6 +10,7 @@
             vm.mobileImages = [];
             vm.maxAttachments = 6;
             vm.maxSize = 60;
+            vm.cameraShow = false;
 
             var isWebView = ionic.Platform.isWebView();
             var isIPad = ionic.Platform.isIPad();
@@ -168,9 +169,9 @@
                 }
             };
 
-            $scope.file_changed = function(element) {
-                vm.mobileImages.push(element);
-                console.log(vm.mobileImages);
+            $scope.file_changed = function(element, id) {
+                
+                console.log(element, id);
 
             $scope.$apply(function(scope) {
                 var photofile = element.files[0];
@@ -180,8 +181,37 @@
                     console.log('image', e);
                 };
                 reader.readAsDataURL(photofile);
+                console.log('image2: ', photofile);
+                vm.mobileImages.push(photofile);
+
+                });
+            };
+
+            vm.showCam = function() {
+            vm.cameraShow = true;
+            Webcam.set({
+                width: 320,
+                height: 240,
+                dest_width: 640,
+                dest_height: 480,
+                image_format: 'jpeg',
+                jpeg_quality: 90,
+                force_flash: false,
+                flip_horiz: true,
+                fps: 45,
+                upload_name: 'webcamImage'
             });
-        };
+            var camera = document.getElementById('my_camera');
+            var result = document.getElementById('my_result');
+            Webcam.attach(camera);
+            }
+
+            vm.snapshot = function () {
+                console.log('camera jede');
+                Webcam.snap( function(data_uri) {
+                    result.innerHTML = '<img src="'+data_uri+'"/>';
+                } );
+            }
 
             vm.submit = function () {
                 vm.fileSize = 0;
@@ -194,13 +224,15 @@
                     mobileImages: vm.mobileImages
                 };
                 console.log(vm.dataResult);
-                for (var i = 0; i < vm.attachmentsForm.length; i++) {
-                    var element = vm.attachmentsForm[i].myFile;
-                    vm.fileSize += element[i+1].size;
-                    
-                    console.log('element: ', element);
-                    console.log('file: ', vm.fileSize);
-                    
+                if (vm.isDesktop) {
+                    for (var i = 0; i < vm.attachmentsForm.length; i++) {
+                        var element = vm.attachmentsForm[i].myFile;
+                        vm.fileSize += element[i+1].size;
+                        
+                        console.log('element: ', element);
+                        console.log('file: ', vm.fileSize);
+                        
+                    }
                 }
                 console.log(vm.fileSize / vm.mb);
                 vm.fileSize = vm.fileSize / vm.mb;

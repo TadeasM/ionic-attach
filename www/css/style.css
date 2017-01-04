@@ -129,7 +129,7 @@ ion-content {
 .form-group.desktop-file.has-error:after {
     content: '';
     position: absolute;
-    bottom: 34px;
+    bottom: 25px;
     left: 15px;
     width: 0;
     height: 0;
@@ -198,7 +198,7 @@ ion-content {
     height: 1px;
     width: 1px;
     opacity: 0;
-    display:none;
+    display:none !important;
 }
 .visible-input {
     height: 20px;
