@@ -6,47 +6,52 @@
         .module('starter')
         .controller('attachmentCtrl', function (dataService, $http, $timeout, $scope, $location) {
             var vm = this;
-            vm.mobileImages = [];
-            vm.maxAttachments = 3;
+            vm.maxAttachments = 4;
             vm.maxSize = 60;
             vm.cameraShow = false;
-            vm.setAttachCount = 1;
+            vm.setAttachCount = 2;
             vm.attachmentsForm = [];
+            vm.webcamImages = [];
 
+
+            vm.click = function() {
+                console.log('click')
+            }
+            
             // url Params set forms
-            var urlParams = $location.search();
-            if(urlParams.pz) {
-                vm.pzNumber = urlParams.pz;
+            vm.urlParams = $location.search();
+            if(vm.urlParams.pz) {
+                vm.pzNumber = vm.urlParams.pz;
             } else {
                 vm.pzNumber = 123;
             }
-            if(urlParams.npz) {
-                vm.npzNumber = urlParams.npz;
+            if(vm.urlParams.npz) {
+                vm.npzNumber = vm.urlParams.npz;
             }
-            if(urlParams.ziadanka) {
-                vm.ziadanka = urlParams.ziadanka;
+            if(vm.urlParams.ziadanka) {
+                vm.ziadanka = vm.urlParams.ziadanka;
             }
-            if(urlParams.quantity) {
-                vm.formNumber = urlParams.quantity;
-                for (var i = 0; i < vm.formNumber; i++) {
+            if(vm.urlParams.quantity) {
+                vm.formNumber = vm.urlParams.quantity;
+                for (var i = 1; i <= vm.formNumber; i++) {
                     vm.attachmentsForm.push({name: 'form'+i, id: i})   
                 }
             } else {
-                vm.formNumber = 3;
-                for (var i = 0; i < vm.formNumber; i++) {
+                vm.formNumber = 1;
+                for (var i = 1; i <= vm.formNumber; i++) {
                     vm.attachmentsForm.push({name: 'form'+i, id: i})   
                 }
             }
 
             // ionic mobile od desktop
-            var isWebView = ionic.Platform.isWebView();
-            var isIPad = ionic.Platform.isIPad();
-            var isIOS = ionic.Platform.isIOS();
-            var isAndroid = ionic.Platform.isAndroid();
-            var isWindowsPhone = ionic.Platform.isWindowsPhone();
-            var currentPlatform = ionic.Platform.platform();
+            vm.isWebView = ionic.Platform.isWebView();
+            vm.isIPad = ionic.Platform.isIPad();
+            vm.isIOS = ionic.Platform.isIOS();
+            vm.isAndroid = ionic.Platform.isAndroid();
+            vm.isWindowsPhone = ionic.Platform.isWindowsPhone();
+            vm.currentPlatform = ionic.Platform.platform();
 
-            if (isWebView == false && isIPad == false && isIOS == false && isAndroid == false &&  isWindowsPhone == false ) {
+            if (vm.isWebView == false && vm.isIPad == false && vm.isIOS == false && vm.isAndroid == false &&  vm.isWindowsPhone == false ) {
                 vm.isDesktop = true;
             } else {
                 vm.isDesktop = false;
@@ -71,8 +76,8 @@
                 }
             };
             // init function to get brands object
-            vm.init = function(ids) {
-
+            vm.brandsByIds = function(ids) {
+                vm.brand[ids] = {};
                 $http({
                     method: 'POST',
                     url: '/amc-rest-api/attachments-api/params/brand-by-ids',
@@ -80,7 +85,7 @@
                         'PrincipalId': 'hudak',
                     }
                 }).success(function(data){
-                    vm.categories = data;
+                    vm.brand[ids] = data;
                     return data
                 }).error(function(e){
                     console.log("error", e);
@@ -100,8 +105,9 @@
             }
 
             // get categories object
-            vm.categoriesByIds = function(ids) {
-                vm.category[ids] = {};
+            vm.categoriesByIds = function(ids, value) {
+            console.log(ids, value);
+            vm.category[ids] = {};
 
                 $http({
                     method: 'POST',
@@ -109,10 +115,10 @@
                     headers: {
                         'PrincipalId': 'hudak',
                     },
-                    data: { "brandId":"1", "categoryId": "4" }
+                    data: { "brandId": value }
 
                 }).success(function(data){
-                    vm.categories = data;
+                    vm.categories[ids] = data;
                     return data
                 }).error(function(e){
                     console.log("error", e);
@@ -143,7 +149,7 @@
             }
 
             // get types object
-            vm.typesByIds = function(ids) {
+            vm.typesByIds = function(ids, value) {
                 vm.type[ids] = {};
                 $http({
                     method: 'POST',
@@ -151,7 +157,7 @@
                     headers: {
                         'PrincipalId': 'hudak',
                     },
-                    data: ids
+                    data: { "categoryId": value }
                 }).success(function(data){
                     vm.types = data;
                     return data
@@ -193,9 +199,9 @@
                 });
             }
 
-            vm.category = {};
-            vm.brand = {};
-            vm.type = {};
+            vm.category = [];
+            vm.brand = [];
+            vm.type = [];
 
             // to work with mobile file input
             // $scope.file_changed = function(element, id) {
@@ -215,7 +221,17 @@
             // };
 
             // webcam on desktop
-            vm.showCam = function() {
+            var result;
+            var formId;
+            var webcamImage;
+            var dataUri;
+            vm.hideCam = function() {
+                vm.cameraShow = false;
+            }
+            vm.showCam = function(id) {
+                formId = id;
+                console.log('formId: ', formId);
+
             vm.cameraShow = true;
             Webcam.set({
                 width: 320,
@@ -230,17 +246,29 @@
                 upload_name: 'webcamImage'
             });
             var camera = document.getElementById('my_camera');
-            var result = document.getElementById('my_result');
+            result = document.getElementById('my_result');
             Webcam.attach(camera);
             }
 
             vm.snapshot = function () {
                 console.log('camera works');
                 Webcam.snap( function(data_uri) {
+                    dataUri = data_uri;
                     result.innerHTML = '<img src="'+data_uri+'"/>';
                 } );
+                webcamImage = 'webcamImage' + formId + '.jpg'
             }
             vm.addWebcamImage = function () {
+                for (var i = 0; i < vm.webcamImages.length; i++) {
+                    var element = vm.webcamImages[i];
+                    if(webcamImage == element.fileName) {
+                        vm.webcamImages.splice(i,1)
+
+                    }
+                }
+                vm.webcamImages.push({file: formId, fileName: webcamImage, dataUri: dataUri});
+                console.log(vm.webcamImages);
+                console.log('close');
                 vm.cameraShow = false;
             }
             
@@ -258,15 +286,12 @@
                 console.log(vm.dataResult);
                 
                 // file size validation 
-                if (vm.isDesktop) {
-                    for (var i = 0; i < vm.attachmentsForm.length; i++) {
-                        var element = vm.attachmentsForm[i].file;
-                        vm.fileSize += element[i+1].size;
-                        
-                        console.log('element: ', element);
-                        console.log('file: ', vm.fileSize);
-                        
+                for (var i = 0; i < vm.attachmentsForm.length; i++) {
+                    var element = vm.attachmentsForm[i].file.size;
+                    vm.fileSize += element;
+                    console.log('el: ', vm.fileSize);
                     }
+                    
                 console.log(vm.fileSize / vm.mb);
                 vm.fileSize = vm.fileSize / vm.mb;
 
@@ -275,7 +300,6 @@
                     alert('presahuje 60mb');
                 } else {
                 dataService.postData(vm.dataResult);
-                }
                 }
             }
         })

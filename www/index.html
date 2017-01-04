@@ -30,7 +30,7 @@
 
   <!-- cordova script (this will be a 404 during development) -->
   <script src="lib/ngCordova/dist/ng-cordova.js"></script>
-  <script src="cordova.js"></script>
+  <!--<script src="cordova.js"></script>-->
   <!--<script src="lib/webcam/dist/webcam.js"></script>-->
 
   <!-- your app's js -->
@@ -74,11 +74,26 @@
               </div>
             </div>
           </div>
-          <!---->
+          <div id="camera-div" class="col-sm-12" ng-show="vm.cameraShow">
+            <div class="col-sm-6">
+              <h3>Camera</h3>
+                <div id="my_camera" style="width:320px; height:240px;"></div>
+            </div>
+            <div class="col-sm-6">
+              <h3>Result</h3>
+                <div id="my_result" style="width:320px; height:240px;"></div>
+            </div>
+            <div class="col-sm-12" style="text-align: center; margin-top:15px;">
+              <button type="button" class="btn btn-primary btn-amc  margin-left-15" ng-click="vm.snapshot()">Take Snapshot</button>
+              <button type="button" class="btn btn-primary btn-amc  margin-left-15" ng-click="vm.addWebcamImage()">Add</button>
+              <button type="button" class="btn btn-primary btn-amc  margin-left-15" ng-click="vm.hideCam()">Close</button>
+            </div>
+
+            </div>
           <div ng-repeat="form in vm.attachmentsForm" class="fade">
 
             <p class="padding-side section-title add-form">
-              Príloha<a href="#" ng-click="vm.removeForm([form.id])"><span class="ion-close-round"></span></a></p>
+              Príloha<a href="#" ng-click="vm.removeForm(form.id)"><span class="ion-close-round"></span></a></p>
 
             <!--<div class="form-group col-sm-12" ng-if="!vm.isDesktop" ng-class="{'has-error' : fileName[form.id]}">
               <label class="control-label width-100">Názov súboru</label>
@@ -100,44 +115,37 @@
 
 
 
-            <div class="form-group col-sm-12 desktop-file" ng-if="vm.isDesktop" ng-class="{'has-error' : !form.file[form.id]}">
+            <div class="form-group col-sm-12 desktop-file" ng-if="vm.isDesktop" ng-class="{'has-error' : !form.file}">
               <label class="control-label width-100">Názov súboru</label>
-              <input type="text" name="fileNameInput" class="form-control file-input" ng-model="form.file[form.id].name" ng-disabled="true" ng-required="true">
+              <input type="text" name="fileNameInput" class="form-control file-input" ng-model="form.file.name" ng-disabled="true" ng-required="true">
               <span class="icon-set right">
         <label for="file-input{{form.id}}" style="font-size: 25px;" class="black"><i class="icon ion-ios-upload-outline padding-side"></i>
-                <input id="file-input{{form.id}}" type="file" class="desktop-input" file-model="form.file[form.id]" accept="image/*;capture=camera"></label>
+                <input id="file-input{{form.id}}" type="file" class="desktop-input" file-model="form.file" accept="image/*;capture=camera"></label>
               </span>
               <span class="icon-set right">
-              <label style="font-size: 25px;" class="black" ng-click="vm.showCam()"><i class="icon ion-android-camera padding-right"></i>
+              <label style="font-size: 25px;" class="black" ng-click="vm.showCam(form.id)"><i class="icon ion-android-camera padding-right"></i>
               </label></span>
               <!--{{form.myFile[form.id].size}}-->
             </div>
-              <div id="camera-div" class="col-sm-12" ng-show="vm.cameraShow">
-                <div id="my_camera" style="width:320px; height:240px;"></div>
-                <div id="my_result"></div>
-              <button type="button" ng-click"vm.snapshot()">Take Snapshot</button>
-              <button type="button" ng-click"vm.addWebcamImage()">Add</button>
 
-            </div>
-
-            <div class="form-group col-sm-4" ng-class="{'has-error' : !form.brand[form.id]}">
+            <div class="form-group col-sm-4" ng-class="{'has-error' : !form.brand}">
               <label class="control-label">Druh</label>
-              <select class="form-control" ng-init="vm.init(form.id)" name="brand" ng-model="form.brand[form.id]" ng-options="item.id as item.name for item in vm.brand[form.id]" ng-change="vm.categoriesByIds(form.id)" ng-required="true">
+              <select class="form-control" ng-init="vm.brandsByIds(form.id)" name="brand" ng-model="form.brand" ng-options="item.id as item.name for item in vm.brand[form.id]" ng-change="vm.categoriesByIds(form.id, form.brand)" ng-required="true">
           </select>
             </div>
-            <div class="form-group col-sm-4" ng-class="{'has-error' : !form.category[form.id]}">
+            <div class="form-group col-sm-4" ng-class="{'has-error' : !form.category}">
               <label class="control-label">Kategória</label>
-              <select class="form-control" name="category" ng-model="form.category[form.id]" ng-options="item.id as item.name for item in vm.category[form.id]" ng-change="vm.typesByIds([form.id])" ng-required="true">
+              <select class="form-control" name="category" ng-model="form.category" ng-options="item.id as item.name for item in vm.category[form.id]" ng-change="vm.typesByIds(form.id, form.category)" ng-required="true">
           </select>
             </div>
-            <div class="form-group col-sm-4" ng-class="{'has-error' : !form.type[form.id]}">
+            <div class="form-group col-sm-4" ng-class="{'has-error' : !form.type}">
               <label class="control-label">Typ</label>
-              <select class="form-control" name="type" ng-model="form.type[form.id]" ng-options="item.id as item.name for item in vm.type[form.id]" ng-required="true">
+              <select class="form-control" name="type" ng-model="form.type" ng-options="item.id as item.name for item in vm.type[form.id]" ng-required="true">
           </select>
             </div>
             <div class="form-group col-sm-12">
               <label class="control-label">Poznámka</label>
-              <textarea class="form-control" placeholder="Voliteľná poznámka" rows="3" ng-model="form.note[form.id]"></textarea>
+              <textarea class="form-control" placeholder="Voliteľná poznámka" rows="3" ng-model="form.note"></textarea>
             </div>
 
           </div>
