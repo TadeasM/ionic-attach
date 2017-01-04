@@ -159,7 +159,7 @@
                     },
                     data: { "categoryId": value }
                 }).success(function(data){
-                    vm.types = data;
+                    vm.type[ids] = data;
                     return data
                 }).error(function(e){
                     console.log("error", e);
