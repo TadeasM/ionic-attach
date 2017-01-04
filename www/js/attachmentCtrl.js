@@ -197,7 +197,7 @@
                 image_format: 'jpeg',
                 jpeg_quality: 90,
                 force_flash: false,
-                flip_horiz: true,
+                flip_horiz: false,
                 fps: 45,
                 upload_name: 'webcamImage'
             });
@@ -211,6 +211,9 @@
                 Webcam.snap( function(data_uri) {
                     result.innerHTML = '<img src="'+data_uri+'"/>';
                 } );
+            }
+            vm.addWebcamImage = function () {
+                vm.cameraShow = false;
             }
 
             vm.submit = function () {
@@ -233,13 +236,13 @@
                         console.log('file: ', vm.fileSize);
                         
                     }
-                }
                 console.log(vm.fileSize / vm.mb);
                 vm.fileSize = vm.fileSize / vm.mb;
                 if (vm.fileSize > vm.maxSize) {
                     alert('presahuje 60mb');
                 } else {
                 dataService.postData(vm.dataResult);
+                }
                 }
             }
         })
