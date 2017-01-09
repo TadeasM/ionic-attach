@@ -29,7 +29,7 @@
   <script src="lib/ionic/js/ionic.bundle.js"></script>
 
   <!-- cordova script (this will be a 404 during development) -->
-  <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+  <!--<script src="lib/ngCordova/dist/ng-cordova.js"></script>-->
   <!--<script src="cordova.js"></script>-->
   <!--<script src="lib/webcam/dist/webcam.js"></script>-->
 
@@ -74,7 +74,7 @@
               </div>
             </div>
           </div>
-          <div id="camera-div" class="col-sm-12" ng-show="vm.cameraShow">
+          <div id="camera-div" class="col-sm-12 fade" ng-show="vm.cameraShow">
             <div class="col-sm-6">
               <h3>Camera</h3>
                 <div id="my_camera" style="width:320px; height:240px;"></div>
@@ -84,48 +84,34 @@
                 <div id="my_result" style="width:320px; height:240px;"></div>
             </div>
             <div class="col-sm-12" style="text-align: center; margin-top:15px;">
-              <button type="button" class="btn btn-primary btn-amc  margin-left-15" ng-click="vm.snapshot()">Take Snapshot</button>
-              <button type="button" class="btn btn-primary btn-amc  margin-left-15" ng-click="vm.addWebcamImage()">Add</button>
-              <button type="button" class="btn btn-primary btn-amc  margin-left-15" ng-click="vm.hideCam()">Close</button>
+              <button type="button" class="btn btn-primary btn-amc  margin-left-15" ng-click="vm.snapshot()"><span class="ion-camera" aria-hidden="true"></span> Vyfotiť</button> 
+              <button type="button" class="btn btn-primary btn-amc  margin-left-15" ng-click="vm.addWebcamImage()"><span class="ion-plus-round" aria-hidden="true"></span> Použiť</button>
+              <button type="button" class="btn btn-primary btn-amc  margin-left-15" ng-click="vm.hideCam()"><span class="ion-trash-a" aria-hidden="true"></span> Zahodiť</button>
             </div>
 
             </div>
           <div ng-repeat="form in vm.attachmentsForm" class="fade">
 
             <p class="padding-side section-title add-form">
-              Príloha<a href="#" ng-click="vm.removeForm(form.id)"><span class="ion-close-round"></span></a></p>
-
-            <!--<div class="form-group col-sm-12" ng-if="!vm.isDesktop" ng-class="{'has-error' : fileName[form.id]}">
-              <label class="control-label width-100">Názov súboru</label>
-              <input type="text" class="form-control file-input" ng-model="fileName[form.id]" ng-disabled="true">
-              <span class="icon-set right">
-                <i class="icon ion-ios-upload-outline padding-side" ng-click="vm.choosePhoto([form.id])"></i>
-                <i class="icon ion-android-camera padding-right" ng-click="vm.takePicture([form.id])"></i>
-              </span>
-            </div>-->
+              Príloha<a href="#" ng-click="vm.removeForm(form.name)"><span class="ion-close-round"></span></a></p>
 
             <div class="form-group col-sm-12" ng-if="!vm.isDesktop" ng-class="{'is-empty' : form.cameraInput.$invalid}">
-              <label class="control-label width-100">Názov súboru</label>
-              
-                <input id="cameraInput[form.id]" class="visible-input"
-                onchange="angular.element(this).scope().file_changed(this)" type="file" file-model="form.file[form.id]" name="cameraInput" accept="image/*;capture=camera" >
-                
+              <label class="control-label width-100">Názov súboru</label>     
+                <input id="cameraInput[form.name]" class="visible-input"
+                onchange="angular.element(this).scope().file_changed(this)" type="file" file-model="form.file[form.name]" name="cameraInput" accept="image/*;capture=camera" >
             </div>
-
-
-
 
             <div class="form-group col-sm-12 desktop-file" ng-if="vm.isDesktop" ng-class="{'has-error' : !form.file}">
               <label class="control-label width-100">Názov súboru</label>
               <input type="text" name="fileNameInput" class="form-control file-input" ng-model="form.file.name" ng-disabled="true" ng-required="true">
               <span class="icon-set right">
-        <label for="file-input{{form.id}}" style="font-size: 25px;" class="black"><i class="icon ion-ios-upload-outline padding-side"></i>
-                <input id="file-input{{form.id}}" type="file" class="desktop-input" file-model="form.file" accept="image/*;capture=camera"></label>
+        <label for="file-input{{form.name}}" style="font-size: 25px;" class="black"><i class="icon ion-ios-upload-outline padding-side"></i>
+                <input id="file-input{{form.name}}" type="file" class="desktop-input" file-model="form.file" accept="image/*;capture=camera"></label>
               </span>
               <span class="icon-set right">
-              <label style="font-size: 25px;" class="black" ng-click="vm.showCam(form.id)"><i class="icon ion-android-camera padding-right"></i>
+              <label style="font-size: 25px;" class="black" ng-click="vm.showCam(form.name)"><i class="icon ion-android-camera padding-right"></i>
               </label></span>
-              <!--{{form.myFile[form.id].size}}-->
+              <!--{{form.myFile[form.name].size}}-->
             </div>
 
             <div class="form-group col-sm-4" ng-class="{'has-error' : !form.brand}">

@@ -4,19 +4,17 @@
 
     angular
         .module('starter')
-        .controller('attachmentCtrl', function (dataService, $http, $timeout, $scope, $location) {
+        .controller('attachmentCtrl', attachmentCtrl);
+
+         function attachmentCtrl(dataService, $http, $timeout, $scope, $location) {
             var vm = this;
-            vm.maxAttachments = 4;
+            vm.maxAttachments = 3;
             vm.maxSize = 60;
             vm.cameraShow = false;
             vm.setAttachCount = 2;
             vm.attachmentsForm = [];
             vm.webcamImages = [];
 
-
-            vm.click = function() {
-                console.log('click')
-            }
             
             // url Params set forms
             vm.urlParams = $location.search();
@@ -37,7 +35,7 @@
                     vm.attachmentsForm.push({name: 'form'+i, id: i})   
                 }
             } else {
-                vm.formNumber = 1;
+                vm.formNumber = 2;
                 for (var i = 1; i <= vm.formNumber; i++) {
                     vm.attachmentsForm.push({name: 'form'+i, id: i})   
                 }
@@ -70,7 +68,7 @@
                 for(var i = 0; i < vm.attachmentsForm.length; i++) {
                     var obj = vm.attachmentsForm[i];
 
-                    if(obj.id == objId) {
+                    if(obj.name == objId) {
                         vm.attachmentsForm.splice(i, 1);
                     }
                 }
@@ -118,7 +116,7 @@
                     data: { "brandId": value }
 
                 }).success(function(data){
-                    vm.categories[ids] = data;
+                    vm.category[ids] = data;
                     return data
                 }).error(function(e){
                     console.log("error", e);
@@ -227,6 +225,7 @@
             var dataUri;
             vm.hideCam = function() {
                 vm.cameraShow = false;
+                result.innerHTML = '';
             }
             vm.showCam = function(id) {
                 formId = id;
@@ -268,6 +267,7 @@
                 }
                 vm.webcamImages.push({file: formId, fileName: webcamImage, dataUri: dataUri});
                 console.log(vm.webcamImages);
+                result.innerHTML = '';
                 console.log('close');
                 vm.cameraShow = false;
             }
@@ -281,7 +281,7 @@
                     pzNumber: vm.pzNumber,
                     npzNumber: vm.npzNumber,
                     ziadanka: vm.ziadanka,
-                    mobileImages: vm.mobileImages
+                    webcam: vm.webcamImages
                 };
                 console.log(vm.dataResult);
                 
@@ -302,5 +302,5 @@
                 dataService.postData(vm.dataResult);
                 }
             }
-        })
+        }
 })();
