@@ -31,8 +31,8 @@
                 }).error(function(e){
                     console.log("error", e);
                     vm.attachmentSetup = {
-                        "maxAttachmentsSizeInMB": 1,
-                        "maxAttachmentsCount": 2
+                        "maxAttachmentsSizeInMB": 60,
+                        "maxAttachmentsCount": 6
                         }
                     vm.maxAttachments = vm.attachmentSetup.maxAttachmentsCount;
                     vm.maxSize = vm.attachmentSetup.maxAttachmentsSizeInMB;
