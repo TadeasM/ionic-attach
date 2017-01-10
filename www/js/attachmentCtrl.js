@@ -14,6 +14,7 @@
             vm.setAttachCount = 2;
             vm.attachmentsForm = [];
             vm.webcamImages = [];
+                                console.log(vm.maxAttachments);
 
             // get attachment setup
             vm.getInitSetup = function() {
@@ -30,11 +31,15 @@
                 }).error(function(e){
                     console.log("error", e);
                     vm.attachmentSetup = {
-                        "maxAttachmentsSizeInMB": 50,
+                        "maxAttachmentsSizeInMB": 1,
                         "maxAttachmentsCount": 2
                         }
+                    vm.maxAttachments = vm.attachmentSetup.maxAttachmentsCount;
+                    vm.maxSize = vm.attachmentSetup.maxAttachmentsSizeInMB;
+                    console.log(vm.maxAttachments);
                 });
             }
+            vm.getInitSetup();
 
 
             // url Params set forms
@@ -348,7 +353,7 @@
 
                 // if total size is bigger show alert otherwise post method
                 if (vm.fileSize > vm.maxSize) {
-                    alert('presahuje 60mb');
+                    alert('Velikost priloh presahuje ' + vm.maxSize + 'mb');
                 } else {
                 dataService.postData(vm.dataResult);
                 }
