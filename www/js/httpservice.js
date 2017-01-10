@@ -9,17 +9,31 @@
             
             // Send whole formular 
             vm.postData = function(form) {
-
+                console.log('forms: ',form.forms);
                 // map data to formData object
                 var formData = new FormData(form);
                 var fd = new FormData();
                 fd.append('cisloPz', form.pzNumber);
                 fd.append('cisloNpz', form.npzNumber);
                 fd.append('ziadanka', form.ziadanka);
-                fd.append('subor1', form.forms[0].file);
-                fd.append('subor2', form.webcam[0])
+                for (var i = 0; i < form.forms.length; i++) {
+                    fd.append('druh' +i, form.forms[i].brand);
+                    fd.append('kategoria' +i, form.forms[i].category);
+                    fd.append('typ' +i, form.forms[i].type);
+                    if (form.forms[i].file) {
+                    fd.append('subor' +i, form.forms[i].file);  
+                    } else {
+                        for (var j = 0; j < form.webcam.length; j++) {
+                            if (form.webcam[j]) {
+                            fd.append('subor' +i, form.forms[j]);
+                            break;
+                            }             
+                        }
+                    }         
+                }
+                
 
-                console.log('http data: ', formData, fd, form);
+                console.log('http data: ', fd, form);
                 $http({
                     method: 'POST',
                     url: 'http://private-f98e00-penati1.apiary-mock.com/api/v1/upload', //testing URL
