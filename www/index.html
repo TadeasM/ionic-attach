@@ -77,10 +77,10 @@
             <p class="padding-side section-title add-form">
               Príloha<a href="#" ng-click="vm.removeForm(form.name)"><span class="ion-close-round"></span></a></p>
 
-            <div class="form-group col-sm-12" ng-if="!vm.isDesktop" ng-class="{'is-empty' : form.cameraInput.$invalid}">
+            <div class="form-group col-sm-12" ng-if="!vm.isDesktop" ng-class="{'is-empty' : !form.file.name}">
               <label class="control-label width-100">Názov súboru</label>     
-                <input id="cameraInput[form.name]" class="visible-input"
-                onchange="angular.element(this).scope().file_changed(this)" type="file" file-model="form.file[form.name]" name="cameraInput" accept="image/*;capture=camera" >
+                <input id="cameraInput" class="visible-input"
+                 type="file" file-model="form.file" name="cameraInput" accept="image/*;capture=camera" >
             </div>
 
             <div class="form-group col-sm-12 desktop-file" ng-if="vm.isDesktop" ng-class="{'has-error' : !form.file.name && !isWebcam}">
