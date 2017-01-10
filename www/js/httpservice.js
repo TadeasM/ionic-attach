@@ -8,15 +8,27 @@
             var vm = this;
             
             // Send whole formular 
-            vm.postData = function(formdata) {
-                console.log('http data: ', formdata);
+            vm.postData = function(form) {
+
+                // map data to formData object
+                var formData = new FormData(form);
+                var fd = new FormData();
+                fd.append('cisloPz', form.pzNumber);
+                fd.append('cisloNpz', form.npzNumber);
+                fd.append('ziadanka', form.ziadanka);
+                fd.append('subor1', form.forms[0].file);
+                fd.append('subor2', form.webcam[0])
+
+                console.log('http data: ', formData, fd, form);
                 $http({
                     method: 'POST',
-                    url: '/amc-rest-api/attachments-api/upload',
+                    url: 'http://private-f98e00-penati1.apiary-mock.com/api/v1/upload', //testing URL
                     headers: {
+                        'Content-Type': undefined,
                         'PrincipalId': 'hudak',
                     },
-                    data: formdata
+                    transformRequest: angular.identity,
+                    data: fd
                 }).success(function(data){
                     return data
                 }).error(function(e){

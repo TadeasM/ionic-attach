@@ -6,32 +6,14 @@
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
   <title></title>
 
-  <link rel="manifest" href="manifest.json">
-
-  <!-- un-comment this code to enable service worker
-    <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('service-worker.js')
-          .then(() => console.log('service worker installed'))
-          .catch(err => console.log('Error', err));
-      }
-    </script>-->
+  <!--<link rel="manifest" href="manifest.json">-->
 
   <link href="lib/ionic/css/ionic.css" rel="stylesheet">
   <link href="css/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
 
-  <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-    <link href="css/ionic.app.css" rel="stylesheet">
-    -->
-
   <!-- ionic/angularjs js -->
   <script src="lib/ionic/js/ionic.bundle.js"></script>
-
-  <!-- cordova script (this will be a 404 during development) -->
-  <!--<script src="lib/ngCordova/dist/ng-cordova.js"></script>-->
-  <!--<script src="cordova.js"></script>-->
-  <!--<script src="lib/webcam/dist/webcam.js"></script>-->
 
   <!-- your app's js -->
   <script src="js/app.js"></script>
@@ -101,17 +83,17 @@
                 onchange="angular.element(this).scope().file_changed(this)" type="file" file-model="form.file[form.name]" name="cameraInput" accept="image/*;capture=camera" >
             </div>
 
-            <div class="form-group col-sm-12 desktop-file" ng-if="vm.isDesktop" ng-class="{'has-error' : !form.file}">
+            <div class="form-group col-sm-12 desktop-file" ng-if="vm.isDesktop" ng-class="{'has-error' : !form.file.name && !isWebcam}">
               <label class="control-label width-100">Názov súboru</label>
-              <input type="text" name="fileNameInput" class="form-control file-input" ng-model="form.file.name" ng-disabled="true" ng-required="true">
+              <input type="text" name="fileNameInput" class="form-control file-input" ng-model="form.file.name" ng-disabled="true" ng-required="!isWebcam" ng-hide="isWebcam">
+              <input type="text" name="webcamName" class="form-control file-input" ng-model="vm.webcam[form.name]" ng-disabled="true" ng-init="vm.webcam[form.name] = ' '"  ng-required="isWebcam" ng-show="isWebcam">
               <span class="icon-set right">
-        <label for="file-input{{form.name}}" style="font-size: 25px;" class="black"><i class="icon ion-ios-upload-outline padding-side"></i>
-                <input id="file-input{{form.name}}" type="file" class="desktop-input" file-model="form.file" accept="image/*;capture=camera"></label>
+        <label for="file-input{{form.name}}" style="font-size: 25px;" class="black" ng-click="isFile=true" ng-disabled="isWebcam"><i class="icon ion-ios-upload-outline padding-side"></i>
+                <input id="file-input{{form.name}}" type="file" class="desktop-input" file-model="form.file" accept="image/*;capture=camera" ng-disabled="isWebcam"></label>
               </span>
               <span class="icon-set right">
-              <label style="font-size: 25px;" class="black" ng-click="vm.showCam(form.name)"><i class="icon ion-android-camera padding-right"></i>
+              <label style="font-size: 25px;" class="black" ng-click="vm.showCam(form.id, form.name); isWebcam=true" ng-disabled="isFile"><i class="icon ion-android-camera padding-right"></i>
               </label></span>
-              <!--{{form.myFile[form.name].size}}-->
             </div>
 
             <div class="form-group col-sm-4" ng-class="{'has-error' : !form.brand}">
