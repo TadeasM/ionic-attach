@@ -36,7 +36,7 @@
                 console.log('http data: ', fd, form);
                 $http({
                     method: 'POST',
-                    url: 'http://private-f98e00-penati1.apiary-mock.com/api/v1/upload', //testing URL
+                    url: 'http://172.16.13.71:8080/amc-rest-api/attachments-api/upload', 
                     headers: {
                         'Content-Type': undefined,
                         'PrincipalId': 'hudak',
